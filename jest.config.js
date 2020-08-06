@@ -35,5 +35,5 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
 
-  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel'
+  preset: '@vue/cli-plugin-unit-jest/presets/typescript-and-babel',
 }

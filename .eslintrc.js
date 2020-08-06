@@ -5,7 +5,10 @@ module.exports = {
     node: true,
   },
 
-  extends: 'vuetify',
+  extends: [
+    'vuetify',
+    '@vue/typescript',
+  ],
 
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
@@ -13,16 +16,11 @@ module.exports = {
   },
 
   parserOptions: {
-    "ecmaVersion": 7,
-    "sourceType": "module",
-    "parser": "babel-eslint"
+    ecmaVersion: 7,
+    sourceType: 'module',
   },
 
-  "plugins": [
-    '@typescript-eslint/eslint-plugin'
+  plugins: [
+    '@typescript-eslint/eslint-plugin',
   ],
-
-  'extends': [
-    '@vue/typescript'
-  ]
 }

@@ -227,7 +227,7 @@
 </template>
 
 <script>
-  // Components
+// Components
   import PagesPlanCard from '@/views/pages/components/PlanCard'
 
   export default {

@@ -173,6 +173,6 @@
 
 <script>
   export default {
-    //
+  //
   }
 </script>

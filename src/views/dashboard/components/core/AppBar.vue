@@ -118,7 +118,7 @@
 </template>
 
 <script>
-  // Components
+// Components
   import { VHover, VListItem } from 'vuetify/lib'
 
   // Utilities
