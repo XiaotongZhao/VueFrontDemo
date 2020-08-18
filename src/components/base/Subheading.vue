@@ -3,10 +3,7 @@
     <h5 class="font-weight-light">
       {{ subheading }}
       <template v-if="text">
-        <span
-          class="subtitle-1"
-          v-text="text"
-        />
+        <span class="subtitle-1" v-text="text" />
       </template>
     </h5>
 
@@ -15,20 +12,11 @@
     </div>
   </div>
 </template>
-
-<script>
-  export default {
-    name: 'Subheading',
-
-    props: {
-      subheading: {
-        type: String,
-        default: '',
-      },
-      text: {
-        type: String,
-        default: '',
-      },
-    },
-  }
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
+@Component
+export default class Subheading extends Vue {
+  @Prop({ default: "" }) readonly subheading!: string;
+  @Prop({ default: "" }) readonly text!: string;
+}
 </script>

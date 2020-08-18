@@ -1,9 +1,8 @@
-<script>
-  import { VCard } from 'vuetify/lib'
-
-  export default {
-    name: 'Card',
-
-    extends: VCard,
-  }
+<script lang="ts">
+import { VCard } from "vuetify/lib";
+import { Component, Vue } from "vue-property-decorator";
+@Component
+export default class Card extends VCard {
+  
+}
 </script>
