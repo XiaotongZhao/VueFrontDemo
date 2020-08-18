@@ -10,11 +10,8 @@
       min-width="100"
       style="position: fixed; top: 115px; right: -35px; border-radius: 8px;"
     >
-      <v-icon large>
-        mdi-settings
-      </v-icon>
+      <v-icon large>mdi-settings</v-icon>
     </v-card>
-
     <v-menu
       v-model="menu"
       :close-on-content-click="false"
@@ -27,19 +24,11 @@
       origin="top right"
       transition="scale-transition"
     >
-      <v-card
-        class="text-center mb-0"
-        width="300"
-      >
+      <v-card class="text-center mb-0" width="300">
         <v-card-text>
           <strong class="mb-3 d-inline-block">SIDEBAR FILTERS</strong>
-
           <v-item-group v-model="color">
-            <v-item
-              v-for="color in colors"
-              :key="color"
-              :value="color"
-            >
+            <v-item v-for="color in colors" :key="color" :value="color">
               <template v-slot="{ active, toggle }">
                 <v-avatar
                   :class="active && 'v-settings__item--active'"
@@ -51,19 +40,10 @@
               </template>
             </v-item>
           </v-item-group>
-
           <v-divider class="my-4 secondary" />
-
-          <v-row
-            align="center"
-            no-gutters
-          >
-            <v-col cols="auto">
-              Dark Mode
-            </v-col>
-
+          <v-row align="center" no-gutters>
+            <v-col cols="auto">Dark Mode</v-col>
             <v-spacer />
-
             <v-col cols="auto">
               <v-switch
                 v-model="$vuetify.theme.dark"
@@ -73,59 +53,22 @@
               />
             </v-col>
           </v-row>
-
           <v-divider class="my-4 secondary" />
-
-          <v-row
-            align="center"
-            no-gutters
-          >
-            <v-col cols="auto">
-              Sidebar Image
-            </v-col>
-
-            <v-spacer />
-
-            <v-col cols="auto">
-              <v-switch
-                v-model="showImg"
-                class="ma-0 pa-0"
-                color="secondary"
-                hide-details
-              />
-            </v-col>
-          </v-row>
-
           <v-divider class="my-4 secondary" />
-
           <strong class="mb-3 d-inline-block">IMAGES</strong>
-
-          <v-item-group
-            v-model="image"
-            class="d-flex justify-space-between mb-3"
-          >
-            <v-item
-              v-for="image in images"
-              :key="image"
-              :value="image"
-              class="mx-1"
-            >
+          <v-item-group v-model="image" class="d-flex justify-space-between mb-3">
+            <v-item v-for="image in images" :key="image" :value="image" class="mx-1">
               <template v-slot="{ active, toggle }">
                 <v-sheet
                   :class="active && 'v-settings__item--active'"
                   class="d-inline-block v-settings__item"
                   @click="toggle"
                 >
-                  <v-img
-                    :src="image"
-                    height="100"
-                    width="50"
-                  />
+                  <v-img :src="image" height="100" width="50" />
                 </v-sheet>
               </template>
             </v-item>
           </v-item-group>
-
           <v-btn
             block
             class="mb-3"
@@ -134,10 +77,7 @@
             default
             rel="noopener"
             target="_blank"
-          >
-            Free Download
-          </v-btn>
-
+          >Free Download</v-btn>
           <v-btn
             block
             class="mb-3"
@@ -147,105 +87,59 @@
             default
             rel="noopener"
             target="_blank"
-          >
-            Documentation
-          </v-btn>
-
+          >Documentation</v-btn>
           <div class="my-12" />
-
           <div>
             <strong class="mb-3 d-inline-block">THANK YOU FOR SHARING!</strong>
           </div>
-
-          <v-btn
-            class="ma-1"
-            color="#55acee"
-            dark
-            default
-            rounded
-          >
-            <v-icon>mdi-twitter</v-icon>
-            - 45
+          <v-btn class="ma-1" color="#55acee" dark default rounded>
+            <v-icon>mdi-twitter</v-icon>- 45
           </v-btn>
-
-          <v-btn
-            class="ma-1"
-            color="#3b5998"
-            dark
-            default
-            rounded
-          >
-            <v-icon>mdi-facebook</v-icon>
-            - 50
+          <v-btn class="ma-1" color="#3b5998" dark default rounded>
+            <v-icon>mdi-facebook</v-icon>- 50
           </v-btn>
         </v-card-text>
       </v-card>
     </v-menu>
   </div>
 </template>
+<script lang="ts">
+import { State, Mutation } from "vuex-class";
+import { Component, Vue, Watch } from "vue-property-decorator";
+@Component
+export default class DashboardDashboard extends Vue {
+  private color: String = "#E91E63";
+  private colors: Array<String> = [
+    "#9C27b0",
+    "#00CAE3",
+    "#4CAF50",
+    "#ff9800",
+    "#E91E63",
+    "#FF5252",
+  ];
+  private image: String = "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg";
+  private images: Array<String> = [
+    "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg",
+    "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-2.jpg",
+    "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg",
+    "https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg",
+  ];
 
-<script>
-// Mixins
-  import Proxyable from 'vuetify/lib/mixins/proxyable'
-  import { mapMutations, mapState } from 'vuex'
+  private menu: boolean = false;
+  private saveImage: string = "";
+  private showImg: boolean = true;
+  private isDark: boolean = false;
 
-  export default {
-    name: 'DashboardCoreSettings',
-
-    mixins: [Proxyable],
-
-    data: () => ({
-      color: '#E91E63',
-      colors: [
-        '#9C27b0',
-        '#00CAE3',
-        '#4CAF50',
-        '#ff9800',
-        '#E91E63',
-        '#FF5252',
-      ],
-      image: 'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-      images: [
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-1.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-2.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-3.jpg',
-        'https://demos.creative-tim.com/material-dashboard/assets/img/sidebar-4.jpg',
-      ],
-      menu: false,
-      saveImage: '',
-      showImg: true,
-    }),
-
-    computed: {
-      ...mapState(['barImage']),
-    },
-
-    watch: {
-      color (val) {
-        this.$vuetify.theme.themes[this.isDark ? 'dark' : 'light'].primary = val
-      },
-      showImg (val) {
-        if (!val) {
-          this.saveImage = this.barImage
-          this.setBarImage('')
-        } else if (this.saveImage) {
-          this.setBarImage(this.saveImage)
-          this.saveImage = ''
-        } else {
-          this.setBarImage(val)
-        }
-      },
-      image (val) {
-        this.setBarImage(val)
-      },
-    },
-
-    methods: {
-      ...mapMutations({
-        setBarImage: 'SET_BAR_IMAGE',
-      }),
-    },
+  @Watch("color")
+  colorChanged(val: string) {
+    this.$vuetify.theme.themes[this.isDark ? "dark" : "light"].primary = val;
   }
+
+  @Watch("image")
+  imageChanged(val: string) {
+    this.$store.state.barImage = val;
+  }
+}
 </script>
 
 <style lang="sass">

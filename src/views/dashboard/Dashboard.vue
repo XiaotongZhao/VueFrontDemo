@@ -227,6 +227,3 @@ export default class DashboardDashboard extends Vue {
   };
 }
 </script>
-
-
-
