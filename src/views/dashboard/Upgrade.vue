@@ -84,12 +84,12 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: "DashboardDashboard",
-};
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+@Component
+export default class DashboardDashboard extends Vue {
+}
 </script>
-
 <style lang="sass">
 #upgrade
   .v-data-table
