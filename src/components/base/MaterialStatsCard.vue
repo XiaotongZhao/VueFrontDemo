@@ -7,10 +7,7 @@
   >
     <template v-slot:after-heading>
       <div class="ml-auto text-right">
-        <div
-          class="body-3 grey--text font-weight-light"
-          v-text="title"
-        />
+        <div class="body-3 grey--text font-weight-light" v-text="title" />
 
         <h3 class="display-2 font-weight-light text--primary">
           {{ value }} <small>{{ smallValue }}</small>
@@ -18,18 +15,11 @@
       </div>
     </template>
 
-    <v-col
-      cols="12"
-      class="px-0"
-    >
+    <v-col cols="12" class="px-0">
       <v-divider />
     </v-col>
 
-    <v-icon
-      :color="subIconColor"
-      size="16"
-      class="ml-2 mr-1"
-    >
+    <v-icon :color="subIconColor" size="16" class="ml-2 mr-1">
       {{ subIcon }}
     </v-icon>
 
@@ -40,53 +30,42 @@
     />
   </base-material-card>
 </template>
+<script lang="ts">
+import Card from "./Card.vue";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-<script>
-  import Card from './Card'
-
-  export default {
-    name: 'MaterialStatsCard',
-
-    inheritAttrs: false,
-
-    props: {
-      ...Card.props,
-      icon: {
-        type: String,
-        required: true,
-      },
-      subIcon: {
-        type: String,
-        default: undefined,
-      },
-      subIconColor: {
-        type: String,
-        default: undefined,
-      },
-      subTextColor: {
-        type: String,
-        default: undefined,
-      },
-      subText: {
-        type: String,
-        default: undefined,
-      },
-      title: {
-        type: String,
-        default: undefined,
-      },
-      value: {
-        type: String,
-        default: undefined,
-      },
-      smallValue: {
-        type: String,
-        default: undefined,
-      },
-    },
-  }
+@Component
+export default class MaterialStatsCard extends Vue {
+  @Prop({
+    default: undefined,
+  })
+  readonly subIcon!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly subIconColor!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly subTextColor!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly subText!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly title!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly value!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly smallValue!: string;
+}
 </script>
-
 <style lang="sass">
 .v-card--material-stats
   display: flex

@@ -4,3 +4,4 @@ declare module '*.vue' {
 }
 
 declare module 'vuetify/lib/mixins/themeable'
+declare module  'vuetify/lib/mixins/proxyable'

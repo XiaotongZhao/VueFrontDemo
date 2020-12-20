@@ -86,51 +86,50 @@
   </v-card>
 </template>
 
-<script>
-  export default {
-    name: 'MaterialCard',
+<script lang="ts">
+import { Component, Prop, Vue } from "vue-property-decorator";
 
-    props: {
-      avatar: {
-        type: String,
-        default: '',
-      },
-      color: {
-        type: String,
-        default: 'success',
-      },
-      icon: {
-        type: String,
-        default: undefined,
-      },
-      image: {
-        type: Boolean,
-        default: false,
-      },
-      text: {
-        type: String,
-        default: '',
-      },
-      title: {
-        type: String,
-        default: '',
-      },
-    },
+@Component
+export default class MaterialCard extends Vue {
+  @Prop({
+    default: "",
+  })
+  readonly avatar!: string;
+  @Prop({
+    default: "success",
+  })
+  readonly color!: string;
+  @Prop({
+    default: "",
+  })
+  readonly icon!: string;
+  @Prop({
+    default: undefined,
+  })
+  readonly image!: Boolean;
+  @Prop({
+    default: false,
+  })
+  readonly text!: string;
+  @Prop({
+    default: "",
+  })
+  readonly title!: string;
 
-    computed: {
-      classes () {
-        return {
-          'v-card--material--has-heading': this.hasHeading,
-        }
-      },
-      hasHeading () {
-        return Boolean(this.$slots.heading || this.title || this.icon)
-      },
-      hasAltHeading () {
-        return Boolean(this.$slots.heading || (this.title && this.icon))
-      },
-    },
+  get classes() {
+    return {
+      "v-card--material--has-heading": this.hasHeading,
+    };
   }
+
+  get hasHeading(): boolean {
+    return Boolean(this.$slots.heading || this.title || this.icon);
+  }
+
+  get hasAltHeading(): boolean {
+    return Boolean(this.$slots.heading || (this.title && this.icon));
+  }
+}
 </script>
 
 <style lang="sass">

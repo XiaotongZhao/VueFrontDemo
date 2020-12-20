@@ -39,10 +39,12 @@
   </v-alert>
 </template>
 
-<script>
-  export default {
-    name: 'MaterialAlert',
-  }
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+@Component
+export default class MaterialAlert extends Vue {
+}
 </script>
 
 <style lang="sass">
