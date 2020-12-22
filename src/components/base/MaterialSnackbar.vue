@@ -4,7 +4,7 @@
     class="v-snackbar--material"
     v-bind="{
       ...$attrs,
-      'color': 'transparent'
+      color: 'transparent',
     }"
   >
     <base-material-alert
@@ -19,51 +19,47 @@
     </base-material-alert>
   </v-snackbar>
 </template>
-<script>
-  export default {
-    name: 'BaseMaterialSnackbar',
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-    props: {
-      dismissible: {
-        type: Boolean,
-        default: true,
-      },
-      type: {
-        type: String,
-        default: '',
-      },
-      value: Boolean,
-    },
+@Component
+export default class BaseMaterialSnackbar extends Vue {
+  @Prop({ default: true }) readonly dismissible!: boolean;
+  @Prop({ default: "" }) readonly type!: string;
+  @Prop() readonly value!: Boolean;
 
-    data () {
-      return {
-        internalValue: this.value,
-      }
-    },
+  private internalValue: boolean = false;
 
-    watch: {
-      internalValue (val, oldVal) {
-        if (val === oldVal) return
-
-        this.$emit('input', val)
-      },
-      value (val, oldVal) {
-        if (val === oldVal) return
-
-        this.internalValue = val
-      },
-    },
+  data() {
+    return {
+      internalValue: this.value,
+    };
   }
+
+  @Watch("internalValue")
+  internalValueChange(val: string, oldVal: string) {
+    if (val === oldVal) return;
+
+    this.$emit("input", val);
+  }
+
+  @Watch("value")
+  valueChange(val: boolean, oldVal: boolean) {
+    if (val === oldVal) return;
+
+    this.internalValue = val;
+  }
+}
 </script>
 
 <style lang="sass">
-  .v-snackbar--material
-    margin-top: 32px
-    margin-bottom: 32px
+.v-snackbar--material
+  margin-top: 32px
+  margin-bottom: 32px
 
-    .v-alert--material,
-    .v-snack__wrapper
-      border-radius: 4px
+  .v-alert--material,
+  .v-snack__wrapper
+    border-radius: 4px
 
     .v-snack__content
       overflow: visible
