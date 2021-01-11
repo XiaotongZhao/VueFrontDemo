@@ -9,7 +9,8 @@
     "test:e2e": "vue-cli-service test:e2e",
     "dev": "vue-cli-service serve --open",
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'",
-    "now-start": "vue-cli-service serve"
+    "now-start": "vue-cli-service serve",
+    "refresh-api" :"cd nswag & .\\refresh.bat" 
   },
   "dependencies": {
     "axios": "^0.21.1",

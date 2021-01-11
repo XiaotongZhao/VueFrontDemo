@@ -70,7 +70,7 @@ export class AuthenticateClient {
         return Promise.resolve<UserViewModel[]>(<any>null);
     }
 
-    requestToken(request: TokenRequest , cancelToken?: CancelToken | undefined): Promise<TokenResult> {
+    requestToken(request: TokenRequest , cancelToken?: CancelToken | undefined): Promise<FileResponse> {
         let url_ = this.baseUrl + "/Authenticate/Request";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -78,11 +78,12 @@ export class AuthenticateClient {
 
         let options_ = <AxiosRequestConfig>{
             data: content_,
+            responseType: "blob",
             method: "POST",
             url: url_,
             headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/octet-stream"
             },
             cancelToken
         };
@@ -98,7 +99,7 @@ export class AuthenticateClient {
         });
     }
 
-    protected processRequestToken(response: AxiosResponse): Promise<TokenResult> {
+    protected processRequestToken(response: AxiosResponse): Promise<FileResponse> {
         const status = response.status;
         let _headers: any = {};
         if (response.headers && typeof response.headers === "object") {
@@ -108,17 +109,16 @@ export class AuthenticateClient {
                 }
             }
         }
-        if (status === 200) {
-            const _responseText = response.data;
-            let result200: any = null;
-            let resultData200  = _responseText;
-            result200 = TokenResult.fromJS(resultData200);
-            return result200;
+        if (status === 200 || status === 206) {
+            const contentDisposition = response.headers ? response.headers["content-disposition"] : undefined;
+            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
+            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
+            return Promise.resolve({ fileName: fileName, status: status, data: response.data as Blob, headers: _headers });
         } else if (status !== 200 && status !== 204) {
             const _responseText = response.data;
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
         }
-        return Promise.resolve<TokenResult>(<any>null);
+        return Promise.resolve<FileResponse>(<any>null);
     }
 }
 
@@ -189,58 +189,6 @@ export interface IUserViewModel extends IBaseViewModelOfInteger {
     name?: string | null;
 }
 
-export class TokenResult implements ITokenResult {
-    id?: number;
-    userName?: string | null;
-    password?: string | null;
-    success?: boolean;
-    token?: string | null;
-
-    constructor(data?: ITokenResult) {
-        if (data) {
-            for (var property in data) {
-                if (data.hasOwnProperty(property))
-                    (<any>this)[property] = (<any>data)[property];
-            }
-        }
-    }
-
-    init(_data?: any) {
-        if (_data) {
-            this.id = _data["id"] !== undefined ? _data["id"] : <any>null;
-            this.userName = _data["userName"] !== undefined ? _data["userName"] : <any>null;
-            this.password = _data["password"] !== undefined ? _data["password"] : <any>null;
-            this.success = _data["success"] !== undefined ? _data["success"] : <any>null;
-            this.token = _data["token"] !== undefined ? _data["token"] : <any>null;
-        }
-    }
-
-    static fromJS(data: any): TokenResult {
-        data = typeof data === 'object' ? data : {};
-        let result = new TokenResult();
-        result.init(data);
-        return result;
-    }
-
-    toJSON(data?: any) {
-        data = typeof data === 'object' ? data : {};
-        data["id"] = this.id !== undefined ? this.id : <any>null;
-        data["userName"] = this.userName !== undefined ? this.userName : <any>null;
-        data["password"] = this.password !== undefined ? this.password : <any>null;
-        data["success"] = this.success !== undefined ? this.success : <any>null;
-        data["token"] = this.token !== undefined ? this.token : <any>null;
-        return data; 
-    }
-}
-
-export interface ITokenResult {
-    id?: number;
-    userName?: string | null;
-    password?: string | null;
-    success?: boolean;
-    token?: string | null;
-}
-
 export class TokenRequest implements ITokenRequest {
     username?: string | null;
     password?: string | null;
@@ -279,6 +227,13 @@ export class TokenRequest implements ITokenRequest {
 export interface ITokenRequest {
     username?: string | null;
     password?: string | null;
+}
+
+export interface FileResponse {
+    data: Blob;
+    status: number;
+    fileName?: string;
+    headers?: { [name: string]: any };
 }
 
 export class ApiException extends Error {
